@@ -46,7 +46,7 @@ Online-Calculator/
 
 1. Clone the repository
    ```bash
-   git clone https://github.com/<username>/Online-Calculator.git
+   git clone <repo-url>
    ```
 2. Open `index.html` in your browser.
 
