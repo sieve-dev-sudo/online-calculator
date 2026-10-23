@@ -437,6 +437,16 @@ function applyAngleMode(mode) {
   updatePreview();
 }
 
+// ===== Basic / scientific keypad (phones) =====
+const calculatorEl = document.querySelector('.calculator');
+
+function setKeypad(basic) {
+  calculatorEl.classList.toggle('basic', basic);
+  try {
+    localStorage.setItem('calculator-keypad', basic ? 'basic' : 'sci');
+  } catch (e) {}
+}
+
 // ===== Button clicks =====
 function handleButton(btn) {
   const { action, value } = btn.dataset;
@@ -455,6 +465,7 @@ function handleButton(btn) {
     case 'backspace': backspace(); break;
     case 'second': setSecond(!secondMode); break;
     case 'angle': applyAngleMode(angleMode === 'deg' ? 'rad' : 'deg'); break;
+    case 'swap': setKeypad(!calculatorEl.classList.contains('basic')); break;
   }
 }
 
@@ -463,10 +474,71 @@ document.querySelectorAll('.keys button').forEach(btn => {
 });
 
 // ===== Keyboard =====
+const KHMER_DIGITS = '០១២៣៤៥៦៧៨៩';
+const NUMPAD_KEYS = {
+  NumpadAdd: '+',
+  NumpadSubtract: '-',
+  NumpadMultiply: '*',
+  NumpadDivide: '/',
+  NumpadDecimal: '.',
+  NumpadEnter: 'Enter'
+};
+
+// physical keys without Shift
+const CODE_KEYS = {
+  Minus: '-',
+  Equal: '=',
+  Slash: '/',
+  Period: '.'
+};
+
+// physical keys with Shift (same positions as an English keyboard)
+const SHIFT_CODE_KEYS = {
+  Equal: '+',
+  Digit8: '*',
+  Digit9: '(',
+  Digit0: ')',
+  Digit5: '%',
+  Digit1: '!',
+  Digit6: '^'
+};
+
+const VALID_KEYS = '0123456789+-*/^().%!=';
+
+// Turns any keyboard layout (English, Khmer, numpad) into the same keys
+function normalizeKey(e) {
+  const code = e.code || '';
+  const k = e.key;
+
+  // English layout: the key already gives the right character
+  if (k.length === 1 && VALID_KEYS.includes(k)) return k;
+
+  // Khmer digits ០-៩ become 0-9
+  const khmerIndex = KHMER_DIGITS.indexOf(k);
+  if (khmerIndex !== -1) return String(khmerIndex);
+
+  // numpad operators, decimal and Enter
+  if (NUMPAD_KEYS[code]) return NUMPAD_KEYS[code];
+
+  // numpad number keys (also when Num Lock is off)
+  if (/^Numpad[0-9]$/.test(code)) return code.slice(6);
+
+  // other layouts (like Khmer): read the key by its physical position
+  if (e.shiftKey && SHIFT_CODE_KEYS[code]) return SHIFT_CODE_KEYS[code];
+  if (!e.shiftKey && /^Digit[0-9]$/.test(code)) return code.slice(5);
+  if (!e.shiftKey && CODE_KEYS[code]) return CODE_KEYS[code];
+
+  // some keyboards send × or ÷ directly
+  if (k === '×') return '*';
+  if (k === '÷') return '/';
+
+  return k;
+}
+
 document.addEventListener('keydown', (e) => {
   if (e.ctrlKey || e.metaKey || e.altKey) return;
 
-  const k = e.key;
+  const k = normalizeKey(e);
   let handled = true;
 
   if (/^[0-9]$/.test(k)) inputNumber(k);
@@ -501,11 +573,14 @@ themeToggleBtn.addEventListener('click', () => {
 // ===== Init =====
 let savedTheme = null;
 let savedAngle = null;
+let savedKeypad = null;
 try {
   savedTheme = localStorage.getItem('calculator-theme');
   savedAngle = localStorage.getItem('calculator-angle');
+  savedKeypad = localStorage.getItem('calculator-keypad');
 } catch (e) {}
 
 applyTheme(savedTheme === 'dark');
 applyAngleMode(savedAngle === 'rad' ? 'rad' : 'deg');
+setKeypad(savedKeypad !== 'sci'); // phones start with the basic keypad
 render();
