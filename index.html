@@ -9,36 +9,66 @@
 <body>
 
 <div class="calculator">
-  <div class="display" id="display">0</div>
+  <div class="top-bar">
+    <span class="title">Calculator</span>
+    <button class="icon-btn" id="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+  </div>
+
+  <div class="display">
+    <span class="angle-badge" id="angle-badge">DEG</span>
+    <div class="history" id="history"></div>
+    <div class="main" id="display">0</div>
+    <div class="preview" id="preview"></div>
+  </div>
+
   <div class="keys">
-    <button class="clear" id="clear">C</button>
-    <button class="func" id="paren">( )</button>
-    <button class="func" id="percent">%</button>
-    <button class="op" data-op="/">÷</button>
+    <!-- Row 1 -->
+    <button class="sci" id="angle-mode" data-action="angle">rad</button>
+    <button class="sci" data-action="open">(</button>
+    <button class="sci" data-action="close">)</button>
+    <button class="accent" data-action="clear">AC</button>
+    <button class="accent" data-action="backspace" aria-label="Backspace">⌫</button>
+    <button class="accent" data-action="postfix" data-value="%">%</button>
+    <button class="op" data-action="op" data-value="/">÷</button>
 
-    <button data-num="7">7</button>
-    <button data-num="8">8</button>
-    <button data-num="9">9</button>
-    <button class="op" data-op="*">×</button>
+    <!-- Row 2 -->
+    <button class="sci" id="second" data-action="second">2nd</button>
+    <button class="sci" data-action="postfix" data-value="^(-1)"><sup>1</sup>/<sub>x</sub></button>
+    <button class="sci" data-action="const" data-value="π">π</button>
+    <button data-action="num" data-value="7">7</button>
+    <button data-action="num" data-value="8">8</button>
+    <button data-action="num" data-value="9">9</button>
+    <button class="op" data-action="op" data-value="*">×</button>
 
-    <button data-num="4">4</button>
-    <button data-num="5">5</button>
-    <button data-num="6">6</button>
-    <button class="op" data-op="-">−</button>
+    <!-- Row 3 -->
+    <button class="sci" data-action="func" data-fn="sin(" data-fn2="asin(" data-label2="sin⁻¹">sin</button>
+    <button class="sci" data-action="func" data-fn="tan(" data-fn2="atan(" data-label2="tan⁻¹">tan</button>
+    <button class="sci" data-action="func" data-fn="cos(" data-fn2="acos(" data-label2="cos⁻¹">cos</button>
+    <button data-action="num" data-value="4">4</button>
+    <button data-action="num" data-value="5">5</button>
+    <button data-action="num" data-value="6">6</button>
+    <button class="op" data-action="op" data-value="-">−</button>
 
-    <button data-num="1">1</button>
-    <button data-num="2">2</button>
-    <button data-num="3">3</button>
-    <button class="op" data-op="+">+</button>
+    <!-- Row 4 -->
+    <button class="sci" data-action="postfix" data-value="!">x!</button>
+    <button class="sci" data-action="func" data-fn="sqrt(" data-fn2="^(2)" data-label2="x²">√x</button>
+    <button class="sci" data-action="op" data-value="^">x<sup>y</sup></button>
+    <button data-action="num" data-value="1">1</button>
+    <button data-action="num" data-value="2">2</button>
+    <button data-action="num" data-value="3">3</button>
+    <button class="op" data-action="op" data-value="+">+</button>
 
-    <button class="func" id="theme-toggle" aria-label="Toggle dark mode">🌙</button>
-    <button data-num="0">0</button>
-    <button class="func" id="decimal">.</button>
-    <button class="equals" id="equals">=</button>
+    <!-- Row 5 -->
+    <button class="sci" data-action="func" data-fn="log(" data-fn2="10^(" data-label2="10ˣ">lg</button>
+    <button class="sci" data-action="func" data-fn="ln(" data-fn2="ℯ^(" data-label2="eˣ">ln</button>
+    <button class="sci" data-action="const" data-value="ℯ">e</button>
+    <button data-action="num" data-value="00">00</button>
+    <button data-action="num" data-value="0">0</button>
+    <button data-action="decimal">.</button>
+    <button class="equals" data-action="equals">=</button>
   </div>
 
   <p class="footer-credit">Developed By <strong>Mr. Siev E</strong></p>
-  
 </div>
 
 <script src="script.js"></script>
