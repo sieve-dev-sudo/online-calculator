@@ -101,6 +101,7 @@ body {
 .history,
 .main {
   overflow-x: auto;
+  overflow-y: hidden;
   white-space: nowrap;
   scrollbar-width: none;
 }
@@ -112,18 +113,22 @@ body {
 
 .history {
   font-size: 18px;
+  line-height: 1.5;
   color: var(--muted-text);
-  min-height: 24px;
+  min-height: 27px;
 }
 
+/* extra line-height and bottom padding so letters like g, y, p are not cut off */
 .main {
   font-size: 48px;
   font-weight: 300;
-  line-height: 1.2;
+  line-height: 1.35;
+  padding-bottom: 6px;
 }
 
 .preview {
   font-size: 20px;
+  line-height: 1.4;
   color: var(--muted-text);
   min-height: 28px;
 }
@@ -131,7 +136,14 @@ body {
 /* ===== Keys ===== */
 .keys {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  /* minmax(0, 1fr) stops wide keys from pushing the grid off the screen */
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-template-areas:
+    "angle  open  close ac  back pct div"
+    "second inv   pi    n7  n8   n9  mul"
+    "sin    tan   cos   n4  n5   n6  sub"
+    "fact   sqrt  pow   n1  n2   n3  add"
+    "lg     ln    e     n00 n0   dot eq";
   gap: 10px;
 }
 
@@ -141,9 +153,17 @@ body {
   height: 60px;
   font-size: 22px;
   font-family: inherit;
+  line-height: 1;
+  padding: 0;
+  min-width: 0;
+  overflow: hidden;
   cursor: pointer;
   background: var(--key-bg);
   color: var(--key-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  -webkit-tap-highlight-color: transparent;
   transition: transform 0.05s ease, filter 0.15s ease, background 0.3s ease, color 0.3s ease;
 }
 
@@ -195,64 +215,230 @@ body.dark .keys button:hover {
   font-size: 0.65em;
 }
 
+/* each key gets a named place in the grid */
+.k-angle { grid-area: angle; }
+.k-open { grid-area: open; }
+.k-close { grid-area: close; }
+.k-ac { grid-area: ac; }
+.k-back { grid-area: back; }
+.k-pct { grid-area: pct; }
+.k-div { grid-area: div; }
+.k-second { grid-area: second; }
+.k-inv { grid-area: inv; }
+.k-pi { grid-area: pi; }
+.k-n7 { grid-area: n7; }
+.k-n8 { grid-area: n8; }
+.k-n9 { grid-area: n9; }
+.k-mul { grid-area: mul; }
+.k-sin { grid-area: sin; }
+.k-tan { grid-area: tan; }
+.k-cos { grid-area: cos; }
+.k-n4 { grid-area: n4; }
+.k-n5 { grid-area: n5; }
+.k-n6 { grid-area: n6; }
+.k-sub { grid-area: sub; }
+.k-fact { grid-area: fact; }
+.k-sqrt { grid-area: sqrt; }
+.k-pow { grid-area: pow; }
+.k-n1 { grid-area: n1; }
+.k-n2 { grid-area: n2; }
+.k-n3 { grid-area: n3; }
+.k-add { grid-area: add; }
+.k-lg { grid-area: lg; }
+.k-ln { grid-area: ln; }
+.k-e { grid-area: e; }
+.k-n00 { grid-area: n00; }
+.k-n0 { grid-area: n0; }
+.k-dot { grid-area: dot; }
+.k-eq { grid-area: eq; }
+.k-swap { grid-area: swap; }
+
+/* the keypad switch is only for phones */
+.keys .k-swap {
+  display: none;
+}
+
 /* ===== Footer ===== */
 .footer-credit {
-  margin: 18px 0 0;
+  margin: 20px 0 0;
   text-align: center;
-  font-size: 14.5px;
+  font-size: 17px;
+  letter-spacing: 0.3px;
   color: #6b6b6b;
+}
+
+.footer-credit strong {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--display-text);
 }
 
 body.dark .footer-credit {
   color: #a0a0a0;
 }
 
-/* ===== Responsive ===== */
+/* ===== Phone ===== */
 @media (max-width: 600px) {
-  .calculator {
-    padding: 16px;
-    border-radius: 22px;
+  body {
+    padding: 0;
+    align-items: stretch;
+    background: var(--card-bg);
   }
 
+  .calculator {
+    max-width: none;
+    min-height: 100vh;
+    min-height: 100dvh;
+    border-radius: 0;
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+    /* bigger top and bottom padding keeps content away from the screen edges */
+    padding: calc(28px + env(safe-area-inset-top, 0px)) 20px calc(32px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .title {
+    font-size: 17px;
+  }
+
+  .icon-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+
+  /* display takes all the free space, keypad sits at the bottom */
   .display {
-    min-height: 130px;
+    flex: 1;
+    min-height: 110px;
+    padding: 8px 4px 12px;
+    margin-bottom: 10px;
+  }
+
+  .history {
+    font-size: clamp(14px, 4vw, 18px);
   }
 
   .main {
-    font-size: 36px;
+    font-size: clamp(34px, 11vw, 48px);
   }
 
+  .preview {
+    font-size: clamp(15px, 4.5vw, 20px);
+  }
+
+  /* scientific keypad: 5 columns, sizes shrink with the screen width */
   .keys {
-    gap: 6px;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-areas:
+      "second angle sin  cos  tan"
+      "pow    lg    ln   open close"
+      "sqrt   ac    back pct  div"
+      "fact   n7    n8   n9   mul"
+      "inv    n4    n5   n6   sub"
+      "pi     n1    n2   n3   add"
+      "swap   e     n0   dot  eq";
+    gap: clamp(6px, 2.2vw, 10px);
   }
 
   .keys button {
-    height: 48px;
-    font-size: 17px;
-    border-radius: 12px;
+    height: auto;
+    aspect-ratio: 1.45;
+    border-radius: clamp(12px, 3.6vw, 16px);
+    font-size: clamp(17px, 5.6vw, 24px);
   }
 
   .keys .sci {
-    font-size: 14px;
+    font-size: clamp(12px, 3.8vw, 17px);
+  }
+
+  .keys .accent {
+    font-size: clamp(15px, 4.8vw, 21px);
   }
 
   .keys .op {
-    font-size: 20px;
+    font-size: clamp(18px, 6vw, 26px);
   }
 
   .keys .equals {
-    font-size: 22px;
+    font-size: clamp(20px, 6.4vw, 28px);
+  }
+
+  .keys .k-swap svg {
+    width: clamp(18px, 5.5vw, 24px);
+    height: clamp(18px, 5.5vw, 24px);
+  }
+
+  .keys .k-n00 {
+    display: none;
+  }
+
+  .keys .k-swap {
+    display: flex;
+  }
+
+  /* basic keypad: 4 columns, bigger keys */
+  .calculator.basic .keys {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-areas:
+      "ac   back pct div"
+      "n7   n8   n9  mul"
+      "n4   n5   n6  sub"
+      "n1   n2   n3  add"
+      "swap n0   dot eq";
+    gap: clamp(8px, 3vw, 12px);
+  }
+
+  .calculator.basic .keys button {
+    aspect-ratio: 1.4;
+    border-radius: clamp(14px, 4.5vw, 20px);
+    font-size: clamp(22px, 7.5vw, 30px);
+  }
+
+  .calculator.basic .keys .accent {
+    font-size: clamp(20px, 6.5vw, 26px);
+  }
+
+  .calculator.basic .keys .op,
+  .calculator.basic .keys .equals {
+    font-size: clamp(24px, 8vw, 32px);
+  }
+
+  .calculator.basic .keys .k-swap svg {
+    width: clamp(22px, 6.5vw, 28px);
+    height: clamp(22px, 6.5vw, 28px);
+  }
+
+  .calculator.basic .keys .sci {
+    display: none;
+  }
+
+  .calculator.basic .angle-badge {
+    display: none;
+  }
+
+  .calculator.basic .main {
+    font-size: clamp(40px, 13vw, 56px);
+  }
+
+  .footer-credit {
+    margin-top: 20px;
+    font-size: clamp(12px, 3.6vw, 14px);
+  }
+
+  .footer-credit strong {
+    font-size: clamp(13px, 3.9vw, 15px);
   }
 }
 
-@media (max-width: 380px) {
+/* very short screens: flatter keys so everything still fits */
+@media (max-width: 600px) and (max-height: 700px) {
   .keys button {
-    height: 42px;
-    font-size: 15px;
+    aspect-ratio: 1.75;
   }
 
-  .keys .sci {
-    font-size: 12px;
+  .calculator.basic .keys button {
+    aspect-ratio: 1.6;
   }
 }
 
