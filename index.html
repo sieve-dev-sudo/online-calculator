@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Online - Calculator</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -22,50 +22,53 @@
   </div>
 
   <div class="keys">
-    <!-- Row 1 -->
-    <button class="sci" id="angle-mode" data-action="angle">rad</button>
-    <button class="sci" data-action="open">(</button>
-    <button class="sci" data-action="close">)</button>
-    <button class="accent" data-action="clear">AC</button>
-    <button class="accent" data-action="backspace" aria-label="Backspace">⌫</button>
-    <button class="accent" data-action="postfix" data-value="%">%</button>
-    <button class="op" data-action="op" data-value="/">÷</button>
+    <button class="sci k-angle" id="angle-mode" data-action="angle">rad</button>
+    <button class="sci k-open" data-action="open">(</button>
+    <button class="sci k-close" data-action="close">)</button>
+    <button class="accent k-ac" data-action="clear">AC</button>
+    <button class="accent k-back" data-action="backspace" aria-label="Backspace">⌫</button>
+    <button class="accent k-pct" data-action="postfix" data-value="%">%</button>
+    <button class="op k-div" data-action="op" data-value="/">÷</button>
 
-    <!-- Row 2 -->
-    <button class="sci" id="second" data-action="second">2nd</button>
-    <button class="sci" data-action="postfix" data-value="^(-1)"><sup>1</sup>/<sub>x</sub></button>
-    <button class="sci" data-action="const" data-value="π">π</button>
-    <button data-action="num" data-value="7">7</button>
-    <button data-action="num" data-value="8">8</button>
-    <button data-action="num" data-value="9">9</button>
-    <button class="op" data-action="op" data-value="*">×</button>
+    <button class="sci k-second" id="second" data-action="second">2nd</button>
+    <button class="sci k-inv" data-action="postfix" data-value="^(-1)"><sup>1</sup>/<sub>x</sub></button>
+    <button class="sci k-pi" data-action="const" data-value="π">π</button>
+    <button class="k-n7" data-action="num" data-value="7">7</button>
+    <button class="k-n8" data-action="num" data-value="8">8</button>
+    <button class="k-n9" data-action="num" data-value="9">9</button>
+    <button class="op k-mul" data-action="op" data-value="*">×</button>
 
-    <!-- Row 3 -->
-    <button class="sci" data-action="func" data-fn="sin(" data-fn2="asin(" data-label2="sin⁻¹">sin</button>
-    <button class="sci" data-action="func" data-fn="tan(" data-fn2="atan(" data-label2="tan⁻¹">tan</button>
-    <button class="sci" data-action="func" data-fn="cos(" data-fn2="acos(" data-label2="cos⁻¹">cos</button>
-    <button data-action="num" data-value="4">4</button>
-    <button data-action="num" data-value="5">5</button>
-    <button data-action="num" data-value="6">6</button>
-    <button class="op" data-action="op" data-value="-">−</button>
+    <button class="sci k-sin" data-action="func" data-fn="sin(" data-fn2="asin(" data-label2="sin⁻¹">sin</button>
+    <button class="sci k-tan" data-action="func" data-fn="tan(" data-fn2="atan(" data-label2="tan⁻¹">tan</button>
+    <button class="sci k-cos" data-action="func" data-fn="cos(" data-fn2="acos(" data-label2="cos⁻¹">cos</button>
+    <button class="k-n4" data-action="num" data-value="4">4</button>
+    <button class="k-n5" data-action="num" data-value="5">5</button>
+    <button class="k-n6" data-action="num" data-value="6">6</button>
+    <button class="op k-sub" data-action="op" data-value="-">−</button>
 
-    <!-- Row 4 -->
-    <button class="sci" data-action="postfix" data-value="!">x!</button>
-    <button class="sci" data-action="func" data-fn="sqrt(" data-fn2="^(2)" data-label2="x²">√x</button>
-    <button class="sci" data-action="op" data-value="^">x<sup>y</sup></button>
-    <button data-action="num" data-value="1">1</button>
-    <button data-action="num" data-value="2">2</button>
-    <button data-action="num" data-value="3">3</button>
-    <button class="op" data-action="op" data-value="+">+</button>
+    <button class="sci k-fact" data-action="postfix" data-value="!">x!</button>
+    <button class="sci k-sqrt" data-action="func" data-fn="sqrt(" data-fn2="^(2)" data-label2="x²">√x</button>
+    <button class="sci k-pow" data-action="op" data-value="^">x<sup>y</sup></button>
+    <button class="k-n1" data-action="num" data-value="1">1</button>
+    <button class="k-n2" data-action="num" data-value="2">2</button>
+    <button class="k-n3" data-action="num" data-value="3">3</button>
+    <button class="op k-add" data-action="op" data-value="+">+</button>
 
-    <!-- Row 5 -->
-    <button class="sci" data-action="func" data-fn="log(" data-fn2="10^(" data-label2="10ˣ">lg</button>
-    <button class="sci" data-action="func" data-fn="ln(" data-fn2="ℯ^(" data-label2="eˣ">ln</button>
-    <button class="sci" data-action="const" data-value="ℯ">e</button>
-    <button data-action="num" data-value="00">00</button>
-    <button data-action="num" data-value="0">0</button>
-    <button data-action="decimal">.</button>
-    <button class="equals" data-action="equals">=</button>
+    <button class="sci k-lg" data-action="func" data-fn="log(" data-fn2="10^(" data-label2="10ˣ">lg</button>
+    <button class="sci k-ln" data-action="func" data-fn="ln(" data-fn2="ℯ^(" data-label2="eˣ">ln</button>
+    <button class="sci k-e" data-action="const" data-value="ℯ">e</button>
+    <button class="k-n00" data-action="num" data-value="00">00</button>
+    <button class="k-n0" data-action="num" data-value="0">0</button>
+    <button class="k-dot" data-action="decimal">.</button>
+    <button class="equals k-eq" data-action="equals">=</button>
+
+    <!-- only shown on phones: switch between basic and scientific keypad -->
+    <button class="accent k-swap" data-action="swap" aria-label="Switch keypad">
+      <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="3" y="3" width="11" height="11" rx="2.5"/>
+        <rect x="10" y="10" width="11" height="11" rx="2.5"/>
+      </svg>
+    </button>
   </div>
 
   <p class="footer-credit">Developed By <strong>Mr. Siev E</strong></p>
